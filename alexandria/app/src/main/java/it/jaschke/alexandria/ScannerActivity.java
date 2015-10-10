@@ -1,3 +1,8 @@
+/*
+ * Based on the scanner activity sample from: https://github.com/dm77/barcodescanner
+ */
+
+
 package it.jaschke.alexandria;
 
 import android.content.Intent;
@@ -15,6 +20,7 @@ import it.jaschke.alexandria.CameraSelectorDialogFragment.CameraSelectorDialogLi
 import me.dm7.barcodescanner.zbar.BarcodeFormat;
 import me.dm7.barcodescanner.zbar.Result;
 import me.dm7.barcodescanner.zbar.ZBarScannerView;
+
 
 public class ScannerActivity
         extends ActionBarActivity

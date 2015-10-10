@@ -3,6 +3,7 @@ package it.jaschke.alexandria;
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
+import android.hardware.Camera;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
@@ -24,11 +25,8 @@ import it.jaschke.alexandria.services.DownloadImage;
 
 
 public class AddBook extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
-    private static final String TAG = "INTENT_TO_SCAN_ACTIVITY";
     private static final int LOADER_ID = 1;
     private static final int RC_SCAN = 100;
-    private static final String SCAN_FORMAT = "scanFormat";
-    private static final String SCAN_CONTENTS = "scanContents";
     private static final String EAN_CONTENT = "eanContent";
     private static final String LAST_GOOD_EAN = "last_good_ean";
 
@@ -40,10 +38,9 @@ public class AddBook extends Fragment implements LoaderManager.LoaderCallbacks<C
     private ImageView mCoverImageView;
     private View mSaveButton;
     private View mDeleteButton;
+    private View mScanButton;
 
     private String mLastGoodEan;
-    private String mScanFormat = "Format:";
-    private String mScanContents = "Contents:";
 
     public AddBook() {
     }
@@ -70,6 +67,7 @@ public class AddBook extends Fragment implements LoaderManager.LoaderCallbacks<C
         mCoverImageView = (ImageView) rootView.findViewById(R.id.bookCover);
         mSaveButton = rootView.findViewById(R.id.save_button);
         mDeleteButton = rootView.findViewById(R.id.delete_button);
+        mScanButton = rootView.findViewById(R.id.scan_button);
 
         if (savedInstanceState != null) {
             mEanEditText.setText(savedInstanceState.getString(EAN_CONTENT));
@@ -115,13 +113,21 @@ public class AddBook extends Fragment implements LoaderManager.LoaderCallbacks<C
             }
         });
 
-        rootView.findViewById(R.id.scan_button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), ScannerActivity.class);
-                startActivityForResult(intent, RC_SCAN);
-            }
-        });
+        // Double check if there is actually a camera,
+        // so the user can use the app even if they don't have a camera for some reason.
+        int numberOfCameras = Camera.getNumberOfCameras();
+        if (numberOfCameras > 0) {
+            mScanButton.setVisibility(View.VISIBLE);
+            mScanButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getActivity(), ScannerActivity.class);
+                    startActivityForResult(intent, RC_SCAN);
+                }
+            });
+        } else {
+            mScanButton.setVisibility(View.GONE);
+        }
 
         mSaveButton.setOnClickListener(new View.OnClickListener() {
             @Override
