@@ -10,7 +10,9 @@ android {
         targetSdkVersion 21
         versionCode 1
         versionName "1.0"
+        resValue "string", "football_api_key", getFootballApiKey()
     }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -22,4 +24,22 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:21.0.3'
+}
+
+def getFootballApiKey(){
+    File propFile = file('private.properties');
+    if (propFile.exists()) {
+        def Properties props = new Properties()
+        props.load(new FileInputStream(propFile))
+
+        if (props.containsKey('FOOTBALL_API_KEY')) {
+            return props['FOOTBALL_API_KEY']
+        } else {
+            logger.warn('FOOTBALL_API_KEY prop missing')
+        }
+    } else {
+        logger.warn('private.properties missing')
+    }
+
+    return ""
 }
