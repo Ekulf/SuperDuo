@@ -137,7 +137,6 @@ public class myFetchService extends IntentService {
         final String Bundesliga3 = "403";
         final String EREDIVISIE = "404";
 
-
         final String SEASON_LINK = "http://api.football-data.org/alpha/soccerseasons/";
         final String MATCH_LINK = "http://api.football-data.org/alpha/fixtures/";
         final String FIXTURES = "fixtures";
@@ -162,7 +161,6 @@ public class myFetchService extends IntentService {
         String Away_goals;
         String match_id;
         String match_day;
-
 
         try {
             JSONArray matches = new JSONObject(JSONdata).getJSONArray(FIXTURES);
@@ -244,6 +242,7 @@ public class myFetchService extends IntentService {
                     values.add(match_values);
                 }
             }
+
             int inserted_data = 0;
             ContentValues[] insert_data = new ContentValues[values.size()];
             values.toArray(insert_data);

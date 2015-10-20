@@ -53,12 +53,12 @@ public class Utilies {
         }
     }
 
-    public static int getTeamCrestByTeamName(String teamname) {
-        if (teamname == null) {
+    public static int getTeamCrestByTeamName(String teamName) {
+        if (teamName == null) {
             return R.drawable.no_icon;
         }
 
-        switch (teamname) { //This is the set of icons that are currently in the app. Feel free to find and add more
+        switch (teamName) { //This is the set of icons that are currently in the app. Feel free to find and add more
             //as you go.
             case "Arsenal London FC":
                 return R.drawable.arsenal;
